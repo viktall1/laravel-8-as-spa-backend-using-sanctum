@@ -13,13 +13,6 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    public function users()
-    {
-        // return RB::success();
-
-        return User::all();
-
-    }
     /**
      * Register a new user.
      *

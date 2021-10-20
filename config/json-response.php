@@ -11,7 +11,8 @@ return [
          * Show model not found when receiving this error
          */
         ModelNotFoundException::class => [
-            'error' => 'Model not found',
+            // 'error' => ['Mode' => 'Model not found'],
+            'error' => ['Mode' => ['error' => "Model not found"]],
             'setStatusCode' => Response::HTTP_NOT_FOUND
         ],
 
