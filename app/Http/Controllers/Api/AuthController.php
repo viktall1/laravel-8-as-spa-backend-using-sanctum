@@ -33,21 +33,13 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|string|confirmed|min:8',
         ];
-        $messages = [
-            //'body.min' => 'We need to get a body up to 20 characters!',
-        ];
-        $custom_attribute = [
-            //    'newsletter_email' => 'email',
-        ];
+        $messages = [];
+        $custom_attribute = [];
 
         $validator = Validator::make($request->all(), $rules, $messages, $custom_attribute);
         if ($validator->fails()) {
-            // $data = [$validator->messages()];
-            // return json_response()->error($data);
-
-
-            $data = ['validator_errors' => $validator->messages()];
-            return response()->json($data, 422);
+            $data = [$validator->messages()];
+            return json_response()->error($data);
         }
 
         $user = User::create([
@@ -84,26 +76,17 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages, $custom_attribute);
         if ($validator->fails()) {
-            $data = [
-                'error_title' => 'validation_error',
-                'validator_errors' => $validator->messages(),
-            ];
-            return response()->json($data, 422);
+            $data = [$validator->messages()];
+            return json_response()->error($data);
         }
 
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            // throw ValidationException::withMessages([
-            //     'error' => ['The provided credentials are incorrect.'],
-            //     'error_type' => ['incorrect_credentiials_error'],
-            // ]);
             $data = [
-                'error_title' => 'incorrect_credentials',
-                'message' => 'The provided credentials are incorrect.',
+                'error' => 'The provided credentials are incorrect.',
             ];
-
-            return response()->json($data, 422);
+            return json_response()->error($data);
         }
 
         $token = $user->createToken('myapptoken')->plainTextToken;
@@ -111,7 +94,7 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ];
-        return response()->json($data, 200);
+        return response()->json($data);
 
     }
     /**
@@ -134,11 +117,8 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages, $custom_attribute);
         if ($validator->fails()) {
-            $data = [
-                'error_title' => 'validation_error',
-                'validator_errors' => $validator->messages(),
-            ];
-            return response()->json($data, 422);
+            $data = [$validator->messages()];
+            return json_response()->error($data);
         }
 
         $user = User::where('email', $request->email)->first();
@@ -146,11 +126,10 @@ class AuthController extends Controller
         if (!$user) {
 
             $data = [
-                'error_title' => 'incorrect_credentials',
-                'message' => 'The provided email does not exist.',
+                'error' => 'The provided email does not exist.',
             ];
+            return json_response()->error($data);
 
-            return response()->json($data, 422);
         }
 
         $status = Password::sendResetLink(
@@ -158,15 +137,15 @@ class AuthController extends Controller
         );
 
         if ($status === Password::RESET_LINK_SENT) {
-            $data = [
-                'message' => __($status),
-            ];
-            return response()->json(['message' => __($status)], 200);
+            // $data = [
+            //     'message' => __($status),
+            // ];
+            return response()->json(['message' => __($status)]);
         } else {
-            $data = [
-                'error_title' => __($status),
-            ];
-            return response()->json(['message' => __($status)], 500);
+            // $data = [
+            //     'error_title' => __($status),
+            // ];
+            return json_response()->error(['error' => __($status)]);
         }
 
     }
@@ -193,11 +172,8 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages, $custom_attribute);
         if ($validator->fails()) {
-            $data = [
-                'error_title' => 'validation_error',
-                'validator_errors' => $validator->messages(),
-            ];
-            return response()->json($data, 422);
+            $data = [$validator->messages()];
+            return json_response()->error($data);
         }
 
         $status = Password::reset(
@@ -214,18 +190,12 @@ class AuthController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            $data = [
-                'message' => __($status),
-            ];
-            return response()->json(['message' => __($status)], 200);
+        
+            return response()->json(['message' => __($status)]);
         } else {
-            $data = [
-                'error_title' => __($status),
-            ];
-            return response()->json(['message' => __($status)], 500);
+            
+            return json_response()->error(['error' => __($status)]);
         }
-        ////
-
     }
 
     /**
@@ -235,66 +205,12 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete();
+      //  auth()->user()->tokens()->delete();
 
-        return [
-            'message' => 'logged out',
-        ];
-
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+       return response()->json(
+           [ 'message' => 'logged out'],
+        );
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
