@@ -17,7 +17,7 @@ class AuthController extends Controller
     {
         // return RB::success();
 
-        //return User::all();
+        return User::all();
 
     }
     /**
@@ -42,6 +42,10 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages, $custom_attribute);
         if ($validator->fails()) {
+            // $data = [$validator->messages()];
+            // return json_response()->error($data);
+
+
             $data = ['validator_errors' => $validator->messages()];
             return response()->json($data, 422);
         }

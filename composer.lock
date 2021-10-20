@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79b58537cd1a8be5cb98d6e1bd8d53a5",
+    "content-hash": "686b0cc81305914f13da20888af9e3d1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -961,6 +961,59 @@
                 }
             ],
             "time": "2021-10-06T17:43:30+00:00"
+        },
+        {
+            "name": "kevupton/laravel-json-response",
+            "version": "v0.0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kevupton/laravel-json-response.git",
+                "reference": "6534d97d6e1723dc74c0218e1748307e95f160a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kevupton/laravel-json-response/zipball/6534d97d6e1723dc74c0218e1748307e95f160a7",
+                "reference": "6534d97d6e1723dc74c0218e1748307e95f160a7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "barryvdh/laravel-ide-helper": "^2.4",
+                "laravel/laravel": "5.5.*",
+                "laravel/lumen-framework": "5.5.*"
+            },
+            "type": "extension",
+            "autoload": {
+                "psr-4": {
+                    "Kevupton\\LaravelJsonResponse\\": "src/Kevupton/LaravelJsonResponse/"
+                },
+                "files": [
+                    "src/Kevupton/LaravelJsonResponse/Helpers/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Upton",
+                    "email": "uptonkg@gmail.com"
+                }
+            ],
+            "description": "Easy Json responses for laravel",
+            "keywords": [
+                "eloquent",
+                "json",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/kevupton/laravel-json-response/issues",
+                "source": "https://github.com/kevupton/laravel-json-response/tree/master"
+            },
+            "time": "2018-12-09T02:13:55+00:00"
         },
         {
             "name": "laravel/framework",
