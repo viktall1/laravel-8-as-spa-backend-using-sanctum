@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController as ApiAuthController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,7 +24,7 @@ Route::post('/login', [ApiAuthController::class, 'login']);
 Route::post('/forgot-password', [ApiAuthController::class, 'forgot_password']);
 Route::post('/reset-password', [ApiAuthController::class, 'reset_password']);
 
-Route::get('/users', [ApiAuthController::class, 'users']);
+// Route::get('/users', [ApiAuthController::class, 'users']);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
@@ -32,6 +32,12 @@ Route::get('/users', [ApiAuthController::class, 'users']);
 
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    //Profile routes
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::put('/users/{id}', [UserController::class, 'update']);
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
     Route::post('/logout', [ApiAuthController::class, 'logout']);
 
